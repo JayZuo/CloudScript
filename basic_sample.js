@@ -365,4 +365,3 @@ handlers.getPlayerStatisticByName = function (args, content) {
     let statistic = result.Statistics[0];
     return statistic.Value;
 }
-}
