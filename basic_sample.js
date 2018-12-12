@@ -29,16 +29,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-(function (factory) {
-    if (typeof module === "object" && typeof module.exports === "object") {
-        var v = factory(require, exports);
-        if (v !== undefined) module.exports = v;
-    }
-    else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "EquipController", "ToolsController", "GeneralGameLogicController", "GameLogicUtilsActions", "BattleController"], factory);
-    }
-})(function (require, exports) {
-    "use strict";
+
 // This is a Cloud Script function. "args" is set to the value of the "FunctionParameter" 
 // parameter of the ExecuteCloudScript API.
 // (https://api.playfab.com/Documentation/Client/method/ExecuteCloudScript)
