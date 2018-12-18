@@ -350,15 +350,15 @@ handlers.getPlayerStatistics = function () {
     return s.Value;
 }
 
-handlers.getPlayerStatisticByName = function (args, content) {
+handlers.getPlayerStatisticByName = function (args, context) {
     let result = server.GetPlayerStatistics({ PlayFabId: currentPlayerId, StatisticNames: args.Name });
     log.info(result.Statistics);
     let statistic = result.Statistics[0];
     return statistic.Value;
 }
 
-handlers.addMember = function (args, content) {
+handlers.addMember = function (args, context) {
     var group = { Id: args.GroupId, Type: "group" };
     var entityProfile = context.currentEntity;
-    var response = entity.AddMembers({ Group: group, Members: [entityProfile] });
+    var response = entity.AddMembers({ Group: group, Members: [entityProfile.Entity] });
 }
