@@ -361,4 +361,5 @@ handlers.addMember = function (args, context) {
     var group = { Id: args.GroupId, Type: "group" };
     var entityProfile = context.currentEntity;
     var response = entity.AddMembers({ Group: group, Members: [entityProfile.Entity] });
+    log.info(response);
 }
