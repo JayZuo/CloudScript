@@ -358,8 +358,15 @@ handlers.getPlayerStatisticByName = function (args, context) {
 }
 
 handlers.addMember = function (args, context) {
-    var group = { Id: args.GroupId, Type: "group" };
-    var entityProfile = context.currentEntity;
-    var response = entity.AddMembers({ Group: group, Members: [entityProfile.Entity] });
-    log.info(response);
+
+    let group = { Id: args.GroupId, Type: "group" };
+    let entityProfile = context.currentEntity;
+    try {
+        entity.AddMembers({ Group: group, Members: [entityProfile.Entity] });
+    }
+    catch (error) {
+        log.error(error);
+        return false;
+    }
+    return true;
 }
