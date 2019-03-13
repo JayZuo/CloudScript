@@ -373,30 +373,13 @@ handlers.addMember = function (args, context) {
 
 //##### SELECT FREE DRAWING WINNER #####
 handlers.SelectFreeDrawingWinner = function(args, context){
- 
-    //Get the most recent freeDrawing version
-    var result = server.GetPlayerStatisticVersions({
-        StatisticName: "Test"
-    });
-   
-    var latestStatisticVersion = 0;
-   
-    if(result)
-    {
-        latestStatisticVersion = result.StatisticVersions[result.StatisticVersions.length-1].Version;
-        log.info("GRABBED VERSION: " + latestStatisticVersion);
-    }
-    else
-    {
-    }
-   
     //Get segment
     var result2 = server.GetPlayersInSegment({
       MaxBatchSize: 10000,
       SegmentId: "F923DAAE46FACAB0"
     });
 
-    if(result2.ProfilesInSegment>0){
+    if(result2.ProfilesInSegment > 0){
         result2.PlayerProfiles.forEach(element => {
             log.info("Player in Segment: " + element.PlayerId);
         });
