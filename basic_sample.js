@@ -85,7 +85,7 @@ handlers.makeHTTPRequest = function (args, context) {
         mode: "foobar"
     };
 
-    var url = "http://httpbin.org/status/200";
+    var url = "https://httpbin.org/post";
     var content = JSON.stringify(body);
     var httpMethod = "post";
     var contentType = "application/json";
