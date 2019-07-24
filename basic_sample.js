@@ -372,16 +372,72 @@ handlers.addMember = function (args, context) {
 }
 
 //##### SELECT FREE DRAWING WINNER #####
-handlers.SelectFreeDrawingWinner = function(args, context){
+handlers.SelectFreeDrawingWinner = function (args, context) {
     //Get segment
     var result2 = server.GetPlayersInSegment({
-      MaxBatchSize: 10000,
-      SegmentId: "F923DAAE46FACAB0"
+        MaxBatchSize: 10000,
+        SegmentId: "F923DAAE46FACAB0"
     });
 
-    if(result2.ProfilesInSegment > 0){
+    if (result2.ProfilesInSegment > 0) {
         result2.PlayerProfiles.forEach(element => {
             log.info("Player in Segment: " + element.PlayerId);
         });
     }
+}
+
+// This is a simple example of making a web request to an external HTTP API.
+handlers.makeHTTPRequestWithGivenStatusCode = function (args, context) {
+    var headers = {
+        "X-MyCustomHeader": "Some Value"
+    };
+
+    log.info("Args are: " + args);
+
+    var url = "https://httpbin.org/post";
+    var content = JSON.stringify(body);
+    var httpMethod = "get";
+    var contentType = "application/json";
+
+    // The pre-defined http object makes synchronous HTTP requests
+    var response = http.request(url, httpMethod, content, contentType, headers);
+    return { responseContent: response };
+};
+
+
+handlers.makeEntityAPICall = function (args, context) {
+    // The pre-defined 'entity' object has functions corresponding to each PlayFab Entity API。
+    var apiResult = entity.GetFiles({
+        Entity: {
+            Id: "98CB4E00BAD136D8", //Here we need to use title player Id, not the master player Id (PlayFabId).
+            Type: "title_player_account"
+        }
+    });
+
+    return {
+        profile: entityProfile,
+        setResult: apiResult.SetResults[0].SetResult
+    };
+};
+
+handlers.writeEvents = function (args, context) {
+    var apiResult = entity.WriteEvents({
+        Events: [{
+            Entity: {
+                Id: "E4EB",
+                Type: "title"
+            },
+            EventNamespace: "com.playfab.events.example",
+            Name: "cloudscript_write_events",
+            Payload: {
+                Foo: "Bar",
+                Nums: [
+                    1,
+                    2,
+                    3
+                ]
+            }
+        }
+        ]
+    })
 }
