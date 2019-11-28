@@ -547,6 +547,7 @@ handlers.getProfiles = function (args, context) {
           }
         ]
       });
+      log.info(result1.Profiles);
       var result2 = entity.GetProfiles({
         "Entities": [
           {
@@ -555,5 +556,7 @@ handlers.getProfiles = function (args, context) {
           }
         ]
       });
+      log.info(result2.Profiles);
+      return result1.Profiles.concat(result2.Profiles);
 }
 
