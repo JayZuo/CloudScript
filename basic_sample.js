@@ -445,118 +445,126 @@ handlers.writeEvents = function (args, context) {
 handlers.getProfiles = function (args, context) {
     var result1 = entity.GetProfiles({
         "Entities": [
-          {
-            "Id": "C7B51708E8CA8B2",
-            "Type": "title_player_account"
-          },
-          {
-            "Id": "941E420241209320",
-            "Type": "title_player_account"
-          },
-          {
-            "Id": "9678877E74322619",
-            "Type": "title_player_account"
-          },
-          {
-            "Id": "903666BF177F1249",
-            "Type": "title_player_account"
-          },
-          {
-            "Id": "9C162AFA55DDCFAC",
-            "Type": "title_player_account"
-          },
-          {
-            "Id": "CD9956A07C96033C",
-            "Type": "title_player_account"
-          },
-          {
-            "Id": "317D927F2B760736",
-            "Type": "title_player_account"
-          },
-          {
-            "Id": "F54967068876A18D",
-            "Type": "title_player_account"
-          },
-          {
-            "Id": "EC398ABC0820E311",
-            "Type": "title_player_account"
-          },
-          {
-            "Id": "4279E48441309A69",
-            "Type": "title_player_account"
-          },
-          {
-            "Id": "503E61B8F9521A44",
-            "Type": "title_player_account"
-          },
-          {
-            "Id": "8096CD68B32B8756",
-            "Type": "title_player_account"
-          },
-          {
-            "Id": "D06874D638E712C5",
-            "Type": "title_player_account"
-          },
-          {
-            "Id": "EF07FE53164D4288",
-            "Type": "title_player_account"
-          },
-          {
-            "Id": "F5DE5F1B33217F5E",
-            "Type": "title_player_account"
-          },
-          {
-            "Id": "E8D3DF2161939495",
-            "Type": "title_player_account"
-          },
-          {
-            "Id": "287CBA8F1869C61B",
-            "Type": "title_player_account"
-          },
-          {
-            "Id": "BA407DB0307D75F2",
-            "Type": "title_player_account"
-          },
-          {
-            "Id": "66E635A67855C579",
-            "Type": "title_player_account"
-          },
-          {
-            "Id": "200459321B753F34",
-            "Type": "title_player_account"
-          },
-          {
-            "Id": "530CBF5DAF73DCA9",
-            "Type": "title_player_account"
-          },
-          {
-            "Id": "60D0692F74C6B4BA",
-            "Type": "title_player_account"
-          },
-          {
-            "Id": "81A74A3A131342AA",
-            "Type": "title_player_account"
-          },
-          {
-            "Id": "838966890A10B56C",
-            "Type": "title_player_account"
-          },
-          {
-            "Id": "BEC3E2141DAC9B51",
-            "Type": "title_player_account"
-          }
+            {
+                "Id": "C7B51708E8CA8B2",
+                "Type": "title_player_account"
+            },
+            {
+                "Id": "941E420241209320",
+                "Type": "title_player_account"
+            },
+            {
+                "Id": "9678877E74322619",
+                "Type": "title_player_account"
+            },
+            {
+                "Id": "903666BF177F1249",
+                "Type": "title_player_account"
+            },
+            {
+                "Id": "9C162AFA55DDCFAC",
+                "Type": "title_player_account"
+            },
+            {
+                "Id": "CD9956A07C96033C",
+                "Type": "title_player_account"
+            },
+            {
+                "Id": "317D927F2B760736",
+                "Type": "title_player_account"
+            },
+            {
+                "Id": "F54967068876A18D",
+                "Type": "title_player_account"
+            },
+            {
+                "Id": "EC398ABC0820E311",
+                "Type": "title_player_account"
+            },
+            {
+                "Id": "4279E48441309A69",
+                "Type": "title_player_account"
+            },
+            {
+                "Id": "503E61B8F9521A44",
+                "Type": "title_player_account"
+            },
+            {
+                "Id": "8096CD68B32B8756",
+                "Type": "title_player_account"
+            },
+            {
+                "Id": "D06874D638E712C5",
+                "Type": "title_player_account"
+            },
+            {
+                "Id": "EF07FE53164D4288",
+                "Type": "title_player_account"
+            },
+            {
+                "Id": "F5DE5F1B33217F5E",
+                "Type": "title_player_account"
+            },
+            {
+                "Id": "E8D3DF2161939495",
+                "Type": "title_player_account"
+            },
+            {
+                "Id": "287CBA8F1869C61B",
+                "Type": "title_player_account"
+            },
+            {
+                "Id": "BA407DB0307D75F2",
+                "Type": "title_player_account"
+            },
+            {
+                "Id": "66E635A67855C579",
+                "Type": "title_player_account"
+            },
+            {
+                "Id": "200459321B753F34",
+                "Type": "title_player_account"
+            },
+            {
+                "Id": "530CBF5DAF73DCA9",
+                "Type": "title_player_account"
+            },
+            {
+                "Id": "60D0692F74C6B4BA",
+                "Type": "title_player_account"
+            },
+            {
+                "Id": "81A74A3A131342AA",
+                "Type": "title_player_account"
+            },
+            {
+                "Id": "838966890A10B56C",
+                "Type": "title_player_account"
+            },
+            {
+                "Id": "BEC3E2141DAC9B51",
+                "Type": "title_player_account"
+            }
         ]
-      });
-      log.info(result1.Profiles);
-      var result2 = entity.GetProfiles({
+    });
+    log.info(result1.Profiles);
+    var result2 = entity.GetProfiles({
         "Entities": [
-          {
-            "Id": "77CB149A45F8001",
-            "Type": "title_player_account"
-          }
+            {
+                "Id": "77CB149A45F8001",
+                "Type": "title_player_account"
+            }
         ]
-      });
-      log.info(result2.Profiles);
-      return result1.Profiles.concat(result2.Profiles);
+    });
+    log.info(result2.Profiles);
+    return result1.Profiles.concat(result2.Profiles);
 }
 
+handlers.listMembership = function (args, context) {
+    return entity.ListMembership({
+        "Entity": {
+            "Id": args.ID,
+            "Type": "title_player_account"
+        }
+    })
+}
