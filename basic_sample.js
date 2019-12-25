@@ -568,3 +568,12 @@ handlers.listMembership = function (args, context) {
         }
     })
 }
+
+handlers.listGroupMembership = function (args, context) {
+    return group.ListMembership({
+        "Entity": {
+            "Id": args.ID,
+            "Type": "title_player_account"
+        }
+    })
+}
