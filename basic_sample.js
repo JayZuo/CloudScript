@@ -577,3 +577,22 @@ handlers.listGroupMembership = function (args, context) {
         }
     })
 }
+
+handlers.AddFriendToPlayer = function (args) {
+    try {
+        server.AddFriend({ PlayFabId: args.playerId, FriendPlayFabId: friendId })
+    } catch (ex) {
+        log.error(ex);
+        switch (ex.apiErrorInfo.errorCode) {
+            case 1183: // UsersAlreadyFriends
+            case 1133: // ConcurrentEditError
+                // if the friend is already in the list or the list is already being modified return false to interrupt the process
+                // it can happen when both players invite each other at the same time in which case
+                // the first player to add the other will have the priority and will update both of the friends lists
+                return false;
+            default:
+                throw `An error occurred calling AddFriend in execFriendsOp.AddFriendToPlayer (${apiErrorWrapper.errorCode})`
+        }
+    }
+    return true;
+}
