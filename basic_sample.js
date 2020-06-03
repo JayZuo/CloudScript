@@ -582,7 +582,6 @@ handlers.AddFriendToPlayer = function (args) {
     try {
         server.AddFriend({ PlayFabId: args.playerId, FriendPlayFabId: args.friendId })
     } catch (ex) {
-        log.error(ex);
         switch (ex.apiErrorInfo.apiError.errorCode) {
             case 1183: // UsersAlreadyFriends
             case 1133: // ConcurrentEditError
@@ -591,8 +590,25 @@ handlers.AddFriendToPlayer = function (args) {
                 // the first player to add the other will have the priority and will update both of the friends lists
                 return false;
             default:
-                throw `An error occurred calling AddFriend in execFriendsOp.AddFriendToPlayer (${apiErrorWrapper.errorCode})`
+                throw `An error occurred calling AddFriend in execFriendsOp.AddFriendToPlayer (${ex.apiErrorInfo.apiError.errorCode})`
         }
     }
     return true;
+}
+
+function sleep (time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+  }
+  
+handlers.TestSleep = function (args) {
+    try {
+        let time = args.time;
+        log.info(time);
+        sleep(time).then(() => {
+            return time + "later";
+        })
+    } catch (error) {
+        log.error(error);
+        return "Error";
+    }
 }
