@@ -596,15 +596,15 @@ handlers.AddFriendToPlayer = function (args) {
     return true;
 }
 
-function sleep (time) {
+function sleep(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
-  }
-  
+}
+
 handlers.TestSleep = function (args) {
     try {
         let time = args.time;
         log.info(time);
-        sleep(time).then(() => {
+        setTimeout(function () {
             return time + "later";
         })
     } catch (error) {
