@@ -601,14 +601,9 @@ function sleep(time) {
 }
 
 handlers.TestSleep = function (args) {
-    try {
         let time = args.time;
         log.info(time);
         setTimeout(function () {
             return time + "later";
         })
-    } catch (error) {
-        log.error(error);
-        return "Error";
-    }
 }
