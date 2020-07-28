@@ -29,22 +29,13 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-(function (factory) {
-    if (typeof module === "object" && typeof module.exports === "object") {
-        var v = factory(require, exports);
-        if (v !== undefined) module.exports = v;
-    }
-    else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "EquipController", "ToolsController", "GeneralGameLogicController", "GameLogicUtilsActions", "BattleController"], factory);
-    }
-})(function (require, exports) {
-    "use strict";
+
 // This is a Cloud Script function. "args" is set to the value of the "FunctionParameter" 
 // parameter of the ExecuteCloudScript API.
 // (https://api.playfab.com/Documentation/Client/method/ExecuteCloudScript)
 // "context" contains additional information when the Cloud Script function is called from a PlayStream action.
 handlers.helloWorld = function (args, context) {
-
+    
     // The pre-defined "currentPlayerId" variable is initialized to the PlayFab ID of the player logged-in on the game client. 
     // Cloud Script handles authenticating the player automatically.
     var message = "Hello " + currentPlayerId + "!";
@@ -56,7 +47,7 @@ handlers.helloWorld = function (args, context) {
     var inputValue = null;
     if (args && args.inputValue)
         inputValue = args.inputValue;
-    log.debug("helloWorld:", { input: inputValue });
+    log.debug("helloWorld:", { input: args.inputValue });
 
     // The value you return from a Cloud Script function is passed back 
     // to the game client in the ExecuteCloudScript API response, along with any log statements
@@ -71,9 +62,9 @@ handlers.helloWorld = function (args, context) {
 handlers.makeAPICall = function (args, context) {
     var request = {
         PlayFabId: currentPlayerId, Statistics: [{
-            StatisticName: "Level",
-            Value: 2
-        }]
+                StatisticName: "Level",
+                Value: 2
+            }]
     };
     // The pre-defined "server" object has functions corresponding to each PlayFab server API 
     // (https://api.playfab.com/Documentation/Server). It is automatically 
@@ -82,12 +73,41 @@ handlers.makeAPICall = function (args, context) {
     var playerStatResult = server.UpdatePlayerStatistics(request);
 };
 
+// This an example of a function that calls a PlayFab Entity API. The function is called using the 
+// 'ExecuteEntityCloudScript' API (https://api.playfab.com/documentation/CloudScript/method/ExecuteEntityCloudScript).
+handlers.makeEntityAPICall = function (args, context) {
+
+    // The profile of the entity specified in the 'ExecuteEntityCloudScript' request.
+    // Defaults to the authenticated entity in the X-EntityToken header.
+    var entityProfile = context.currentEntity;
+
+    // The pre-defined 'entity' object has functions corresponding to each PlayFab Entity API,
+    // including 'SetObjects' (https://api.playfab.com/documentation/Data/method/SetObjects).
+    var apiResult = entity.SetObjects({
+        Entity: entityProfile.Entity,
+        Objects: [
+            {
+                ObjectName: "obj1",
+                DataObject: {
+                    foo: "some server computed value",
+                    prop1: args.prop1
+                }
+            }
+        ]
+    });
+
+    return {
+        profile: entityProfile,
+        setResult: apiResult.SetResults[0].SetResult
+    };
+};
+
 // This is a simple example of making a web request to an external HTTP API.
 handlers.makeHTTPRequest = function (args, context) {
     var headers = {
         "X-MyCustomHeader": "Some Value"
     };
-
+    
     var body = {
         input: args,
         userId: currentPlayerId,
@@ -107,15 +127,15 @@ handlers.makeHTTPRequest = function (args, context) {
 // This is a simple example of a function that is called from a
 // PlayStream event action. (https://playfab.com/introducing-playstream/)
 handlers.handlePlayStreamEventAndProfile = function (args, context) {
-
+    
     // The event that triggered the action 
     // (https://api.playfab.com/playstream/docs/PlayStreamEventModels)
     var psEvent = context.playStreamEvent;
-
+    
     // The profile data of the player associated with the event
     // (https://api.playfab.com/playstream/docs/PlayStreamProfileModels)
     var profile = context.playerProfile;
-
+    
     // Post data about the event to an external API
     var content = JSON.stringify({ user: profile.PlayerId, event: psEvent.EventName });
     var response = http.request('https://httpbin.org/status/200', 'post', content, 'application/json', null);
@@ -137,7 +157,7 @@ handlers.handlePlayStreamEventAndProfile = function (args, context) {
 handlers.completedLevel = function (args, context) {
     var level = args.levelName;
     var monstersKilled = args.monstersKilled;
-
+    
     var updateUserDataResult = server.UpdateUserInternalData({
         PlayFabId: currentPlayerId,
         Data: {
@@ -148,9 +168,9 @@ handlers.completedLevel = function (args, context) {
     log.debug("Set lastLevelCompleted for player " + currentPlayerId + " to " + level);
     var request = {
         PlayFabId: currentPlayerId, Statistics: [{
-            StatisticName: "level_monster_kills",
-            Value: monstersKilled
-        }]
+                StatisticName: "level_monster_kills",
+                Value: monstersKilled
+            }]
     };
     server.UpdatePlayerStatistics(request);
     log.debug("Updated level_monster_kills stat for player " + currentPlayerId + " to " + monstersKilled);
@@ -210,9 +230,9 @@ function processPlayerMove(playerMove) {
     movesMade += 1;
     var request = {
         PlayFabId: currentPlayerId, Statistics: [{
-            StatisticName: "movesMade",
-            Value: movesMade
-        }]
+                StatisticName: "movesMade",
+                Value: movesMade
+            }]
     };
     server.UpdatePlayerStatistics(request);
     server.UpdateUserInternalData({
@@ -298,71 +318,3 @@ handlers.RoomEventRaised = function (args) {
             break;
     }
 };
-
-handlers.GetOthersInv = function (args, ID) {
-    log.debug("PlayFabId:" + args.ID);
-    var inventory = server.GetUserInventory({ PlayFabId: args.ID });
-    log.debug(inventory.PlayFabId + ": Inventory" + inventory.Inventory.length, { Inventory: inventory.Inventory })
-    var Mystring = null;
-    for (var i = 0; i < inventory.Inventory.length; i++) {
-        if (inventory.Inventory[i].ItemClass == "Inventory") {
-            Mystring += "#" + inventory.Inventory[i].DisplayName + " x" + inventory.Inventory[i].RemainingUses + "#";
-        }
-    }
-    log.debug("GetOthersInv:" + Mystring);
-    return { messageValue: Mystring };
-};
-
-handlers.testFBPicUrl = function (args, content) {
-    var message = "{\"picture\":{\"data\":{\"height\":50,\"is_silhouette\":false,\"url\":\"https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=10155832140626538&height=50&width=50&ext=1537597911&hash=AeSK7VTnDou3sTUJ\",\"width\":50}},\"id\":\"10155832140626538\"}";
-
-    var payload = JSON.parse(message);
-    log.info((((payload || {}).picture || {}).data || {}).url);
-    return (((payload || {}).picture || {}).data || {}).url;
-}
-
-handlers.createUserDefaultValues = function (args, context) {
-    entity.SetObjects(
-        {
-            Entity: server.GetUserAccountInfo({ PlayFabId: currentPlayerId }).UserInfo.TitleInfo.TitlePlayerAccount,
-            Objects: [{
-                ObjectName: "Test1",
-                DataObject: "Blah"
-            },
-            {
-                ObjectName: "Test2",
-                DataObject: [1, 2, 3]
-            }
-            ]
-        });
-}
-
-handlers.deletePlayer = function (args, content) {
-    server.DeletePlayer({ PlayFabId: args.ID });
-}
-
-handlers.getTitleInternalData = function (args, content) {
-    var loc = args.key;
-    var titleData = server.GetTitleInternalData({ "Keys": loc })
-    var campaignData = {};
-    var window = "oldlibrary";
-    if (titleData.Data.hasOwnProperty(loc)) {
-        campaignData = JSON.parse(titleData.Data[loc]);
-    }
-    log.info(JSON.stringify(campaignData) + "  " + campaignData[window] + " " + campaignData.hasOwnProperty(window));
-}
-
-handlers.getPlayerStatistics = function () {
-    let myResult = server.GetPlayerStatistics({ PlayFabId: currentPlayerId });
-    let s = myResult.Statistics.find(s => s.StatisticName === "XP");
-    log.info(s);
-    return s.Value;
-}
-
-handlers.getPlayerStatisticByName = function (args, content) {
-    let result = server.GetPlayerStatistics({ PlayFabId: currentPlayerId, StatisticNames: args.Name });
-    log.info(result.Statistics);
-    let statistic = result.Statistics[0];
-    return statistic.Value;
-}
-})
