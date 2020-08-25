@@ -389,13 +389,12 @@ handlers.SelectFreeDrawingWinner = function (args, context) {
 // This is a simple example of making a web request to an external HTTP API.
 handlers.makeHTTPRequestWithGivenStatusCode = function (args, context) {
     var headers = {
-        "X-MyCustomHeader": "Some Value",
-        "accept": "text/plain"
+        "X-MyCustomHeader": "Some Value"
     };
 
     log.info("Args are: " + args);
 
-    var url = "https://httpbin.org/status" + args.StatusCode;
+    var url = "https://httpbin.org/status/" + args.StatusCode;
     var httpMethod = "get";
 
     // The pre-defined http object makes synchronous HTTP requests
