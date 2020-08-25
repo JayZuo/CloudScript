@@ -389,7 +389,8 @@ handlers.SelectFreeDrawingWinner = function (args, context) {
 // This is a simple example of making a web request to an external HTTP API.
 handlers.makeHTTPRequestWithGivenStatusCode = function (args, context) {
     var headers = {
-        "X-MyCustomHeader": "Some Value"
+        "X-MyCustomHeader": "Some Value",
+        "accept":"text/plain"
     };
 
     log.info("Args are: " + args);
