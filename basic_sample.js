@@ -398,7 +398,7 @@ handlers.makeHTTPRequestWithGivenStatusCode = function (args, context) {
     var httpMethod = "get";
 
     // The pre-defined http object makes synchronous HTTP requests
-    var response = http.request(url, httpMethod, content, contentType, headers);
+    var response = http.request(url, httpMethod, null, null, headers);
     return { responseContent: response };
 };
 
