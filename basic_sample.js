@@ -390,16 +390,16 @@ handlers.SelectFreeDrawingWinner = function (args, context) {
 handlers.makeHTTPRequestWithGivenStatusCode = function (args, context) {
     var headers = {
         "X-MyCustomHeader": "Some Value",
-        "accept":"text/plain"
+        "accept": "text/plain"
     };
 
     log.info("Args are: " + args);
 
-    var url = "https://httpbin.org/status"+args.StatusCode;
+    var url = "https://httpbin.org/status" + args.StatusCode;
     var httpMethod = "get";
 
     // The pre-defined http object makes synchronous HTTP requests
-    var response = http.request(url, httpMethod, null, null, headers);
+    var response = http.request(url, httpMethod, null, null, headers, true);
     return { responseContent: response };
 };
 
@@ -600,9 +600,9 @@ function sleep(time) {
 }
 
 handlers.TestSleep = function (args) {
-        let time = args.time;
-        log.info(time);
-        setTimeout(function () {
-            return time + "later";
-        },time);
+    let time = args.time;
+    log.info(time);
+    setTimeout(function () {
+        return time + "later";
+    }, time);
 }
