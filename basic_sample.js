@@ -394,10 +394,8 @@ handlers.makeHTTPRequestWithGivenStatusCode = function (args, context) {
 
     log.info("Args are: " + args);
 
-    var url = "https://httpbin.org/post";
-    var content = JSON.stringify(body);
+    var url = "https://httpbin.org/status"+args.StatusCode;
     var httpMethod = "get";
-    var contentType = "application/json";
 
     // The pre-defined http object makes synchronous HTTP requests
     var response = http.request(url, httpMethod, content, contentType, headers);
