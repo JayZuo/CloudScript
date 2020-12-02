@@ -605,3 +605,7 @@ handlers.TestSleep = function (args) {
         return time + "later";
     }, time);
 }
+
+handlers.logContext = function (args, context) {
+    return context;
+};
