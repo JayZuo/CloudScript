@@ -392,9 +392,9 @@ handlers.makeHTTPRequestWithGivenStatusCode = function (args, context) {
         "X-MyCustomHeader": "Some Value"
     };
 
-    args.forEach( arg=> {
-        log.info("Args are: " + arg.Value);
-    });
+    for (const iterator of args) {
+        log.info("Args are: " + iterator.Value);
+    }
 
     var url = "https://httpbin.org/status/" + args.StatusCode;
     var httpMethod = "get";
