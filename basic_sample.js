@@ -617,3 +617,45 @@ handlers.TestSleep = function (args) {
 handlers.logContext = function (args, context) {
     return context;
 };
+
+handlers.MatchFound = function (context) {
+    let matchId = context.playStreamEvent.Payload.MatchId;
+    let queueName = context.playStreamEvent.Payload.QueueName;
+
+    let matchFoundUrl = "https://httpbin.org/status/400" //"https://139.217.102.203:8080/matchfound";
+
+    // Use http.request to send match info into dedicated matchmaking server
+    // More details about http.request see https://docs.microsoft.com/en-us/gaming/playfab/features/automation/cloudscript/writing-custom-cloudscript#intermediate-overview-globals-and-advanced-arguments
+    let body = {
+        MatchId: matchId,
+        QueueName: queueName
+    };
+
+    let response = http.request(matchFoundUrl, "post", JSON.stringify(body), "application/json");
+    if (response) {
+        if (response.Status === "OK")
+            return response;
+        else {
+            entity.WriteTelemetryEvents({
+                Events: [{
+                    EventNamespace: "custom.boundary.telemetry",
+                    Name: "cloudscript_MatchFound",
+                    Payload: {
+                        Error: response
+                    }
+                }]
+            });
+        }
+    }
+    else {
+        entity.WriteTelemetryEvents({
+            Events: [{
+                EventNamespace: "custom.boundary.telemetry",
+                Name: "cloudscript_MatchFound",
+                Payload: {
+                    Error: "Unknown"
+                }
+            }]
+        });
+    }
+}
