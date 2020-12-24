@@ -404,7 +404,7 @@ handlers.makeHTTPRequestWithGivenStatusCode = function (args, context) {
 
     // The pre-defined http object makes synchronous HTTP requests
     try {
-        var response = http.request(url, httpMethod, null, null, headers, true);
+        var response = http.request(url, httpMethod, null, null, headers, false);
         return { responseContent: response };
     } catch (error) {
         return { responseError: error };
