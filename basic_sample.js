@@ -673,6 +673,7 @@ handlers.getCatalogItems = function (args, context) {
     var cat = server.GetCatalogItems(
         CatalogVersion = "Alpha"
     )
-    element["Catalog"] = cat.Catalog;
+    var element = {},
+    element['Catalog'] = cat.Catalog;
     return element;
 }
