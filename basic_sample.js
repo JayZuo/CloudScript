@@ -658,4 +658,21 @@ handlers.MatchFound = function (context) {
             }]
         });
     }
+
+    let requestMultiplayerServerRequest = {
+        BuildId: buildId,
+        InitialPlayers: [currentPlayerId],
+        PreferredRegions: args.ServerQoSResults,
+        SessionId: args.SessionId
+    }
+    log.debug(requestMultiplayerServerRequest);
+    return multiplayer.RequestMultiplayerServer(requestMultiplayerServerRequest);
+}
+
+handlers.getCatalogItems = function (args, context) {
+    var cat = server.GetCatalogItems(
+        CatalogVersion = "Alpha"
+    )
+    element["Catalog"] = cat.Catalog;
+    return element;
 }
