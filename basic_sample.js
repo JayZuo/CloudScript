@@ -677,3 +677,166 @@ handlers.getCatalogItems = function (args, context) {
     element["Catalog"] = cat.Catalog;
     return element;
 }
+
+handlers.setMatchmakingQueue == function (args, context) {
+    let config = {
+        "MatchmakingQueue": {
+            "Name": "ExampleQueueFromCloudScript",
+            "MinMatchSize": 7,
+            "MaxMatchSize": 8,
+            "MaxTicketSize": 2,
+            "ServerAllocationEnabled": true,
+            "BuildId": "065a3208-39af-4691-8794-5f774c367ac2",
+            "DifferenceRules": [
+                {
+                    "Difference": 10,
+                    "MergeFunction": "Average",
+                    "DefaultAttributeValue": 0,
+                    "LinearExpansion": {
+                        "Delta": 0.5,
+                        "Limit": 20,
+                        "SecondsBetweenExpansions": 5
+                    },
+                    "Attribute": {
+                        "Path": "ExampleAttributeDifference",
+                        "Source": "User"
+                    },
+                    "AttributeNotSpecifiedBehavior": "UseDefault",
+                    "Weight": 1,
+                    "Name": "ExampleNameDifference",
+                    "SecondsUntilOptional": 50
+                }
+            ],
+            "StringEqualityRules": [
+                {
+                    "DefaultAttributeValue": "ExampleDefault",
+                    "Expansion": {
+                        "EnabledOverrides": [
+                            false,
+                            true,
+                            true,
+                            false
+                        ],
+                        "SecondsBetweenExpansions": 5
+                    },
+                    "Attribute": {
+                        "Path": "ExampleAttributeStringEquality",
+                        "Source": "User"
+                    },
+                    "AttributeNotSpecifiedBehavior": "UseDefault",
+                    "Weight": 1,
+                    "Name": "ExampleNameStringEquality",
+                    "SecondsUntilOptional": 50
+                }
+            ],
+            "MatchTotalRules": [
+                {
+                    "Attribute": {
+                        "Path": "ExampleAttribute",
+                        "Source": "User"
+                    },
+                    "Min": 2,
+                    "Max": 0,
+                    "Weight": 1,
+                    "Expansion": {
+                        "MaxOverrides": [
+                            {
+                                "Value": 4
+                            },
+                            {
+                                "Value": 4
+                            },
+                            null
+                        ],
+                        "SecondsBetweenExpansions": 5
+                    },
+                    "Name": "MatchTotalRule",
+                    "SecondsUntilOptional": 50
+                }
+            ],
+            "SetIntersectionRules": [
+                {
+                    "DefaultAttributeValue": [
+                        "a",
+                        "b",
+                        "c"
+                    ],
+                    "MinIntersectionSize": 2,
+                    "LinearExpansion": {
+                        "Delta": 2,
+                        "SecondsBetweenExpansions": 5
+                    },
+                    "Attribute": {
+                        "Path": "ExampleAttributeSetIntersectionRule",
+                        "Source": "User"
+                    },
+                    "AttributeNotSpecifiedBehavior": "UseDefault",
+                    "Weight": 1,
+                    "Name": "ExampleNameSetIntersectionRule",
+                    "SecondsUntilOptional": 50
+                }
+            ],
+            "RegionSelectionRule": {
+                "MaxLatency": 250,
+                "Path": "Latencies",
+                "LinearExpansion": {
+                    "Delta": 10,
+                    "Limit": 300,
+                    "SecondsBetweenExpansions": 5
+                },
+                "Weight": 1,
+                "Name": "RegionSelectionRule",
+                "SecondsUntilOptional": 50
+            },
+            "TeamSizeBalanceRule": {
+                "Difference": 1,
+                "LinearExpansion": {
+                    "Delta": 1,
+                    "Limit": 5,
+                    "SecondsBetweenExpansions": 5
+                },
+                "Name": "TeamSizeBalanceRule",
+                "SecondsUntilOptional": 50
+            },
+            "TeamDifferenceRules": [
+                {
+                    "Attribute": {
+                        "Path": "ExampleAttribute",
+                        "Source": "User"
+                    },
+                    "Difference": 2,
+                    "DefaultAttributeValue": 0,
+                    "LinearExpansion": {
+                        "Delta": 1,
+                        "Limit": 5,
+                        "SecondsBetweenExpansions": 5
+                    },
+                    "Name": "TeamDifferenceRule",
+                    "SecondsUntilOptional": 50
+                }
+            ],
+            "TeamTicketSizeSimilarityRule": {
+                "Name": "TeamTicketSizeSimilarityRule",
+                "SecondsUntilOptional": 180
+            },
+            "Teams": [
+                {
+                    "Name": "monster",
+                    "MinTeamSize": 1,
+                    "MaxTeamSize": 1
+                },
+                {
+                    "Name": "hunters",
+                    "MinTeamSize": 4,
+                    "MaxTeamSize": 8
+                }
+            ],
+            "StatisticsVisibilityToPlayers": {
+                "ShowNumberOfPlayersMatching": true,
+                "ShowTimeToMatch": true
+            }
+        }
+    };
+    var result = multiplayer.SetMatchmakingQueue(config);
+    return result;
+}
